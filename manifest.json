@@ -1,0 +1,27 @@
+{
+    "name": "MediGuide - AI Medical Assistant",
+    "short_name": "MediGuide",
+    "start_url": "./index.html",
+    "display": "standalone",
+    "background_color": "#f0f4f8",
+    "theme_color": "#01796F",
+    "description": "Get personalized medical recommendations based on your symptoms using AI. Use it offline or install it on your device!",
+    "icons": [
+        {
+            "src": "images/icon-192x192.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "images/icon-512x512.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        },
+        {
+            "src": "images/maskable_icon.png",
+            "sizes": "196x196",
+            "type": "image/png",
+            "purpose": "maskable"
+        }
+    ]
+}
