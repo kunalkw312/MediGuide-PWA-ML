@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,28 +13,33 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-    
-    <!-- 1. Load the TensorFlow.js library -->
-    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
-
     <style>
         :root {
             --header-bg-start: #0B6653;
+            /* LIGHT GREEN */
             --header-bg-end: #01796F;
+            /* DARK GREEN */
             --primary-text-color: #1a1a2e;
             --secondary-text-color: #777;
             --light-bg: #f0f4f8;
+            /* A cool, light blue-gray */
             --card-bg: rgba(255, 255, 255, 0.2);
+            /* Semi-transparent white */
             --card-border: rgba(255, 255, 255, 0.18);
+            /* Semi-transparent border */
             --accent-color: #ffffff;
+            --accent-hover: #3a7bd5;
             --shadow-light: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            /* Glassmorphism shadow */
             --border-radius: 20px;
             --nav-bg: #01796F;
         }
+
         body {
             font-family: 'Poppins', sans-serif;
             margin: 0;
             padding-bottom: 70px;
+            /* Add padding for the fixed navigation bar */
             background-color: var(--light-bg);
             background-image: linear-gradient(135deg, #f0f4f8 0%, #d9e2ec 100%);
             color: var(--primary-text-color);
@@ -44,24 +50,33 @@
             box-sizing: border-box;
             position: relative;
         }
+
+        /* Background Circles for visual flair */
         .bg-circle-1 {
             position: absolute;
-            width: 300px; height: 300px;
+            width: 300px;
+            height: 300px;
             background: rgba(74, 144, 226, 0.3);
             border-radius: 50%;
-            top: 5%; left: -10%;
+            top: 5%;
+            left: -10%;
             filter: blur(150px);
             z-index: -1;
         }
+
         .bg-circle-2 {
             position: absolute;
-            width: 400px; height: 400px;
+            width: 400px;
+            height: 400px;
             background: rgba(106, 17, 203, 0.3);
             border-radius: 50%;
-            bottom: 0; right: 0;
+            bottom: -0%;
+            right: -0%;
             filter: blur(150px);
             z-index: -1;
         }
+
+        /* Header section */
         .header {
             width: 100%;
             background: linear-gradient(to right, var(--header-bg-start), var(--header-bg-end));
@@ -73,11 +88,14 @@
             position: relative;
             overflow: hidden;
         }
+
         .header-logo {
-            width: 80px; height: auto;
+            width: 80px;
+            height: auto;
             margin-bottom: 10px;
             filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.5));
         }
+
         .header h1 {
             margin: 0;
             font-size: 3.2em;
@@ -85,6 +103,7 @@
             letter-spacing: 2px;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
         }
+
         .header p {
             font-size: 1.3em;
             margin-top: 5px;
@@ -94,6 +113,8 @@
             margin-right: auto;
             line-height: 1.5;
         }
+
+        /* Main content container for form and results */
         .content-wrapper {
             width: 100%;
             max-width: 900px;
@@ -103,8 +124,11 @@
             gap: 40px;
             box-sizing: border-box;
             margin-top: -30px;
+            /* Overlap with header for a sleek look */
             z-index: 10;
         }
+
+        /* Card styling - Glassmorphism */
         .card {
             background: var(--card-bg);
             backdrop-filter: blur(10px);
@@ -117,10 +141,12 @@
             box-sizing: border-box;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
+
         .card:hover {
             transform: translateY(-5px);
             box-shadow: 0 10px 40px 0 rgba(31, 38, 135, 0.45);
         }
+
         .card h2 {
             font-size: 1.8em;
             color: var(--primary-text-color);
@@ -128,13 +154,17 @@
             text-align: center;
             font-weight: 600;
         }
+
+        /* Tabbed Symptom Section */
         .tab-container {
             display: flex;
             justify-content: center;
             flex-wrap: wrap;
+            /* Added for better mobile responsiveness */
             margin-bottom: 20px;
             gap: 10px;
         }
+
         .tab-button {
             padding: 12px 25px;
             border: none;
@@ -146,36 +176,48 @@
             transition: background-color 0.3s, transform 0.2s;
             font-size: 0.9em;
         }
+
         .tab-button.active,
         .tab-button:hover {
             background-color: #01796F;
             color: white;
             transform: translateY(-2px);
         }
-        .tab-content { display: none; }
-        .tab-content.active { display: block; }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
         .suggestion-buttons {
             display: flex;
             flex-wrap: wrap;
             gap: 10px;
             margin-top: 15px;
         }
+
         .suggestion-button {
             padding: 8px 15px;
             border: 1px solid #01796F;
             border-radius: 20px;
             background-color: transparent;
+            color: var(--accent-color);
             color: #01796F;
             font-size: 0.9em;
             font-weight: 500;
             cursor: pointer;
             transition: background-color 0.3s, color 0.3s, transform 0.2s;
         }
+
         .suggestion-button:hover {
             background-color: #01796F;
             color: white;
             transform: scale(1.05);
         }
+
         label {
             display: block;
             font-weight: 600;
@@ -184,7 +226,10 @@
             color: var(--primary-text-color);
             font-size: 0.95em;
         }
-        input, textarea, select {
+
+        input,
+        textarea,
+        select {
             width: 100%;
             padding: 14px 20px;
             border: 1px solid var(--card-border);
@@ -199,9 +244,13 @@
             transition: border-color 0.3s, box-shadow 0.3s;
             resize: vertical;
         }
-        input:focus, textarea:focus, select:focus {
+
+        input:focus,
+        textarea:focus,
+        select:focus {
             box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
         }
+
         select {
             appearance: none;
             background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%234A90E2%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13%205.1L146.2%20268.4%2018.6%2074.5a17.6%2017.6%200%200%200-25.3-24.5c-6.1%206.1-7.7%2016.9-3.4%2024.5l130%20165.7c4.6%205.8%2013%205.8%2017.6%200l130-165.7c4.3-7.6%202.7-18.4-3.4-24.5-5.6-5.6-14.1-6.1-20.2-.5z%22%2F%3E%3C%2Fsvg%3E');
@@ -210,6 +259,7 @@
             background-size: 15px;
             padding-right: 40px;
         }
+
         button[type="submit"] {
             display: block;
             width: fit-content;
@@ -225,15 +275,14 @@
             transition: background-color 0.3s, transform 0.2s, box-shadow 0.3s;
             box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
         }
+
         button[type="submit"]:hover {
             background-color: #043927;
             transform: translateY(-3px);
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
         }
-        button:disabled {
-            background-color: #9E9E9E;
-            cursor: not-allowed;
-        }
+
+        /* Loader styling */
         .loader-rec {
             display: none;
             flex-direction: column;
@@ -243,23 +292,44 @@
             font-size: 1.2em;
             color: #01796F;
             font-weight: 600;
+
             transform: translateY(100px);
+            /* move down without breaking centering */
         }
+
         .loader-rec p {
             margin-top: 10px;
             animation: pulseText 1.5s infinite ease-in-out;
         }
+
+        /* FIX: Custom spinner animation */
         @keyframes custom-spin {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
         }
+
         .loader-rec .fas.fa-spinner {
             animation: custom-spin 1.5s linear infinite;
         }
+
         @keyframes pulseText {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.6; }
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.6;
+            }
         }
+
+        /* Recommendations Section */
         .recommendations-section {
             background: var(--card-bg);
             backdrop-filter: blur(10px);
@@ -272,13 +342,18 @@
             box-sizing: border-box;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
-        .recommendations-section h2 { text-align: center; }
+
+        .recommendations-section h2 {
+            text-align: center;
+        }
+
         .recommendations-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 25px;
             margin-top: 30px;
         }
+
         .recommendations-grid .item {
             background-color: rgba(255, 255, 255, 0.3);
             border: 1px solid rgba(255, 255, 255, 0.5);
@@ -290,27 +365,33 @@
             text-align: center;
             transition: transform 0.3s ease, background-color 0.3s;
         }
+
         .recommendations-grid .item:hover {
             transform: translateY(-5px);
             background-color: rgba(255, 255, 255, 0.4);
         }
+
         .recommendations-grid .item .icon {
             font-size: 2.5em;
             margin-bottom: 15px;
             color: #01796F;
         }
+
         .recommendations-grid .item h3 {
             font-size: 1.3em;
             font-weight: 600;
             color: #01796F;
             margin: 0 0 10px 0;
         }
+
         .recommendations-grid .item div {
             font-size: 0.95em;
             color: #043927;
             line-height: 1.6;
             word-wrap: break-word;
         }
+
+        /* Disclaimer Section */
         .disclaimer-card {
             background: rgba(255, 243, 205, 0.5);
             border: 1px solid rgba(255, 238, 186, 0.5);
@@ -326,6 +407,7 @@
             backdrop-filter: blur(5px);
             -webkit-backdrop-filter: blur(5px);
         }
+
         .disclaimer-card h3 {
             font-size: 1.3em;
             font-weight: 700;
@@ -334,14 +416,18 @@
             margin-bottom: 15px;
             text-align: center;
         }
+
         .disclaimer-card p {
             font-size: 0.9em;
             line-height: 1.6;
             text-align: justify;
         }
+
+        /* New Navigation Bar */
         .bottom-nav {
             position: fixed;
-            bottom: 0; left: 0;
+            bottom: 0;
+            left: 0;
             width: 100%;
             background-color: var(--nav-bg);
             box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2);
@@ -351,6 +437,7 @@
             padding: 8px 0;
             z-index: 1000;
         }
+
         .nav-item {
             display: flex;
             flex-direction: column;
@@ -362,14 +449,19 @@
             transition: color 0.3s;
             cursor: pointer;
         }
+
         .nav-item:hover,
         .nav-item.active {
             color: var(--accent-color);
         }
+
         .nav-item i {
             font-size: 1.3em;
+            /* Smaller icon size */
             margin-bottom: 3px;
         }
+
+        /* Login Page Styling */
         .login-card {
             display: flex;
             flex-direction: column;
@@ -381,19 +473,26 @@
             border: 1px solid var(--card-border);
             box-shadow: var(--shadow-light);
             margin: 40px auto;
+            /* Use auto margin for proper centering */
             width: 100%;
             max-width: 500px;
             box-sizing: border-box;
         }
-        .login-card form { width: 100%; }
+
+        .login-card form {
+            width: 100%;
+        }
+
         .login-card input[type="text"],
         .login-card input[type="password"] {
             margin-bottom: 15px;
         }
+
         .login-card button {
             width: 100%;
             margin-top: 20px;
         }
+
         .login-message {
             margin-top: 15px;
             font-size: 1em;
@@ -401,12 +500,18 @@
             font-weight: 500;
             text-align: center;
         }
+
         .logout-button {
             background-color: #d9534f;
             width: auto;
             margin-top: 10px;
         }
-        .logout-button:hover { background-color: #c9302c; }
+
+        .logout-button:hover {
+            background-color: #c9302c;
+        }
+
+        /* New styles for logged-in state */
         .welcome-container {
             display: flex;
             flex-direction: column;
@@ -414,33 +519,62 @@
             gap: 15px;
             text-align: center;
         }
+
         .welcome-container .profile-icon {
             font-size: 4em;
             color: #01796F;
         }
+
         .welcome-container h3 {
             font-size: 1.5em;
             margin: 0;
         }
+
         .welcome-container p {
             margin: 0;
             color: var(--secondary-text-color);
         }
+
+        /* New style for centering pages */
         .page {
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             min-height: calc(100vh - 150px);
+            /* Adjusts for header and nav bar */
         }
+
+        /* Responsive adjustments */
         @media (max-width: 768px) {
-            .header { padding: 50px 15px; }
-            .header h1 { font-size: 2.5em; }
-            .header p { font-size: 1.1em; }
-            .content-wrapper { padding: 0 15px; }
-            .card { padding: 30px; }
-            .card h2 { font-size: 1.6em; }
-            .recommendations-grid { grid-template-columns: 1fr; }
+            .header {
+                padding: 50px 15px;
+            }
+
+            .header h1 {
+                font-size: 2.5em;
+            }
+
+            .header p {
+                font-size: 1.1em;
+            }
+
+            .content-wrapper {
+                padding: 0 15px;
+            }
+
+            .card {
+                padding: 30px;
+            }
+
+            .card h2 {
+                font-size: 1.6em;
+            }
+
+            .recommendations-grid {
+                grid-template-columns: 1fr;
+            }
+
             .tab-button {
                 padding: 10px 20px;
                 font-size: 0.85em;
@@ -448,6 +582,7 @@
         }
     </style>
 </head>
+
 <body>
     <div class="bg-circle-1"></div>
     <div class="bg-circle-2"></div>
@@ -529,7 +664,7 @@
                         </div>
                         <div id="tab-custom" class="tab-content">
                             <textarea id="symptoms-custom" rows="4"
-                                placeholder="Describe your symptoms in detail..."></textarea>
+                                placeholder="Describe your symptoms in detail, including duration, severity, and any other relevant information."></textarea>
                         </div>
                     </div>
 
@@ -537,7 +672,7 @@
                     <textarea id="medical-history" rows="3"
                         placeholder="Any existing medical conditions, allergies, or current medications"></textarea>
 
-                    <button type="submit" id="submit-button" disabled>Loading Model...</button>
+                    <button type="submit">Get Recommendations</button>
                 </form>
             </div>
         </div>
@@ -545,7 +680,8 @@
             <h3><i class="fas fa-exclamation-triangle"></i> Important Disclaimer</h3>
             <p>This tool provides recommendations based on the information you provide. It is not a substitute for
                 professional medical advice, diagnosis, or treatment. Always seek the advice of your physician or other
-                qualified health provider with any questions you may have regarding a medical condition.</p>
+                qualified health provider with any questions you may have regarding a medical condition. Never disregard
+                professional medical advice or delay in seeking it because of something you have read here.</p>
         </div>
     </div>
 
@@ -559,34 +695,46 @@
                 <h2>Recommendations</h2>
                 <div class="recommendations-grid">
                     <div class="item">
-                        <div class="icon"> <i class="fas fa-microscope"></i> </div>
+                        <div class="icon">
+                            <i class="fas fa-microscope"></i>
+                        </div>
                         <h3>Disease</h3>
-                        <div id="disease-result">...</div>
+                        <div id="disease-result">Enter your symptoms to get a potential diagnosis.</div>
                     </div>
                     <div class="item">
-                        <div class="icon"> <i class="fas fa-file-medical-alt"></i> </div>
+                        <div class="icon">
+                            <i class="fas fa-file-medical-alt"></i>
+                        </div>
                         <h3>Description</h3>
-                        <div id="description-result">...</div>
+                        <div id="description-result">Detailed description will appear here.</div>
                     </div>
                     <div class="item">
-                        <div class="icon"> <i class="fas fa-shield-alt"></i> </div>
+                        <div class="icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
                         <h3>Precautions</h3>
-                        <div id="precautions-result">...</div>
+                        <div id="precautions-result">Preventive measures will be listed here.</div>
                     </div>
                     <div class="item">
-                        <div class="icon"> <i class="fas fa-pills"></i> </div>
+                        <div class="icon">
+                            <i class="fas fa-pills"></i>
+                        </div>
                         <h3>Medications</h3>
-                        <div id="medications-result">...</div>
+                        <div id="medications-result">Medication suggestions will appear here.</div>
                     </div>
                     <div class="item">
-                        <div class="icon"> <i class="fas fa-dumbbell"></i> </div>
+                        <div class="icon">
+                            <i class="fas fa-dumbbell"></i>
+                        </div>
                         <h3>Workout</h3>
-                        <div id="workout-result">...</div>
+                        <div id="workout-result">Exercise recommendations will be provided here.</div>
                     </div>
                     <div class="item">
-                        <div class="icon"> <i class="fas fa-apple-alt"></i> </div>
+                        <div class="icon">
+                            <i class="fas fa-apple-alt"></i>
+                        </div>
                         <h3>Diet</h3>
-                        <div id="diet-result">...</div>
+                        <div id="diet-result">Dietary advice will be provided here.</div>
                     </div>
                 </div>
             </div>
@@ -632,17 +780,13 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // --- UI Elements ---
             const navItems = document.querySelectorAll('.nav-item');
             const pages = document.querySelectorAll('.page');
             const tabButtons = document.querySelectorAll('.tab-button');
             const tabContents = document.querySelectorAll('.tab-content');
             const form = document.getElementById('symptom-form');
-            const submitButton = document.getElementById('submit-button');
             const loaderRec = document.getElementById('loader-rec');
             const resultsSection = document.getElementById('results');
-            
-            // --- Login Elements ---
             const loginForm = document.getElementById('login-form');
             const logoutButton = document.getElementById('logout-button');
             const loginMessage = document.getElementById('login-message');
@@ -650,303 +794,12 @@
             const welcomeState = document.getElementById('welcome-state');
             const welcomeUsername = document.getElementById('welcome-username');
 
-            // --- ML Model Globals ---
-            let symptomModel;
-            let modelVocab = [];
-            let modelDiseaseNames = [];
-            let modelLoaded = false;
-            
-            // --- User Globals ---
-            let userHistory = []; // Simulates our backend database for the logged-in user
-
-            // ===================================================================
-            // === 1. INITIALIZATION & ML MODEL LOADING
-            // ===================================================================
-
-            /**
-             * Loads all the ML model files from the /model/ folder
-             * This runs as soon as the page loads.
-             */
-            async function loadModel() {
-                try {
-                    console.log("Loading model from 'model/model.json'...");
-                    symptomModel = await tf.loadLayersModel('model/model.json');
-                    
-                    console.log("Loading vocabulary from 'model/vocab.json'...");
-                    const vocabResponse = await fetch('model/vocab.json');
-                    modelVocab = await vocabResponse.json();
-                    
-                    console.log("Loading diseases from 'model/disease_names.json'...");
-                    const diseasesResponse = await fetch('model/disease_names.json');
-                    modelDiseaseNames = await diseasesResponse.json();
-
-                    console.log("Model and metadata loaded successfully.");
-                    modelLoaded = true;
-                    
-                    // Enable the submit button now that the model is ready
-                    submitButton.disabled = false;
-                    submitButton.textContent = "Get Recommendations";
-
-                } catch (err) {
-                    console.error("CRITICAL: Error loading model:", err);
-                    alert("Error: Could not load the ML model. Ensure all model files are in the 'model' folder.");
-                    submitButton.textContent = "ML Model Failed to Load";
-                    submitButton.style.backgroundColor = "#D32F2F";
-                }
-            }
-            
-            // Start loading the ML model immediately
-            loadModel();
-
-            // ===================================================================
-            // === 2. ML DETECTION (LOCAL)
-            // ===================================================================
-
-            /**
-             * Converts text ("fever, cough") into a number array ([1, 1, 0...])
-             * This MUST match the Python script's vectorizer
-             */
-            function preprocess(symptomsText) {
-                const s = symptomsText.toLowerCase();
-                const symptomVector = new Array(modelVocab.length).fill(0);
-                for (let i = 0; i < modelVocab.length; i++) {
-                    if (s.includes(modelVocab[i])) {
-                        symptomVector[i] = 1;
-                    }
-                }
-                return symptomVector;
-            }
-
-            /**
-             * Runs the local ML model to get a disease prediction
-             */
-            async function detectDisease(symptoms) {
-                if (!modelLoaded) {
-                    console.error("Model is not loaded yet.");
-                    return "Error: Model not loaded";
-                }
-
-                console.log("Detecting disease...");
-                
-                const preprocessedSymptoms = preprocess(symptoms);
-                const inputTensor = tf.tensor2d([preprocessedSymptoms]);
-                const prediction = symptomModel.predict(inputTensor);
-                const probabilities = await prediction.data();
-                const predictedIndex = tf.argMax(prediction, 1).dataSync()[0];
-                const detectedDisease = modelDiseaseNames[predictedIndex];
-                
-                console.log("ML Prediction:", detectedDisease, " (Index:", predictedIndex, ")");
-
-                // Clean up memory
-                inputTensor.dispose();
-                prediction.dispose();
-
-                return detectedDisease;
-            }
-            
-            // ===================================================================
-            // === 3. AI RECOMMENDATION (REMOTE)
-            // ===================================================================
-
-            /**
-             * Calls the REAL Gemini API with our personalized prompt.
-             */
-            async function callGeminiAPI(augmentedPrompt) {
-                console.log("Sending prompt to Generative AI...");
-                
-                // This is the JSON structure we want the AI to return
-                const schema = {
-                    type: "OBJECT",
-                    properties: {
-                        "description": { "type": "STRING" },
-                        "precautions": { "type": "STRING" },
-                        "medications": { "type": "STRING" },
-                        "workout": { "type": "STRING" },
-                        "diet": { "type": "STRING" }
-                    },
-                    required: ["description", "precautions", "medications", "workout", "diet"]
-                };
-
-                // ========================================================
-                // == ⬇️ PASTE YOUR API KEY HERE ⬇️ ==
-                // ========================================================
-                const apiKey = "AIzaSyAJXz6E8Yi2KFXeMlZp_DPkf0a9oNo2qhw";
-                // ========================================================
-
-                if (apiKey === "AIzaSyAJXz6E8Yi2KFXeMlZp_DPkf0a9oNo2qhw" || apiKey === "") {
-                    console.error("API Key is missing from index.html");
-                    alert("CRITICAL ERROR: The API key is missing.");
-                    return null;
-                }
-
-                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
-
-                const payload = {
-                    contents: [{ parts: [{ text: augmentedPrompt }] }],
-                    generationConfig: {
-                        responseMimeType: "application/json",
-                        responseSchema: schema
-                    }
-                };
-
-                // Exponential backoff for retries
-                let response;
-                let retries = 3;
-                let delay = 1000;
-                for (let i = 0; i < retries; i++) {
-                    try {
-                        response = await fetch(apiUrl, {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify(payload)
-                        });
-
-                        if (response.ok) {
-                            const result = await response.json();
-                            const jsonText = result.candidates?.[0]?.content?.parts?.[0]?.text;
-                            if (jsonText) {
-                                return JSON.parse(jsonText); // Success!
-                            } else {
-                                throw new Error("Invalid JSON response from API.");
-                            }
-                        } else {
-                            const errorData = await response.json();
-                            let errorMsg = errorData.error.message;
-                            if (response.status === 403 && errorMsg.includes("permission")) {
-                                errorMsg = "API Key is not authorized for this website. Please add this URL to your Google AI Studio settings.";
-                                alert(errorMsg);
-                            }
-                            throw new Error(errorMsg);
-                        }
-                    } catch (error) {
-                        console.error(`AI call failed (Attempt ${i+1}/${retries}): ${error.message}`);
-                        if (i < retries - 1) {
-                            await new Promise(resolve => setTimeout(resolve, delay));
-                            delay *= 2; // Exponential backoff
-                        } else {
-                            console.error(`AI call failed after ${retries} attempts.`);
-                            return null; // Return null on final failure
-                        }
-                    }
-                }
-            }
-            
-            // ===================================================================
-            // === 4. FORM SUBMISSION (The Main Pipeline)
-            // ===================================================================
-            
-            form.addEventListener('submit', async function (e) {
-                e.preventDefault();
-                submitButton.disabled = true;
-                submitButton.textContent = "Analyzing...";
-
-                // --- 1. COLLECT DATA ---
-                const age = document.getElementById('age').value;
-                const gender = document.getElementById('gender').value;
-                const activeTabContent = document.querySelector('.tab-content.active');
-                const symptomsTextarea = activeTabContent.querySelector('textarea');
-                const symptoms = symptomsTextarea.value;
-                const medicalHistory = document.getElementById('medical-history').value;
-
-                if (symptoms.trim().length < 5) {
-                    alert("Please describe your symptoms in more detail.");
-                    submitButton.disabled = false;
-                    submitButton.textContent = "Get Recommendations";
-                    return;
-                }
-
-                // Show loader and switch page
-                loaderRec.style.display = 'flex';
-                resultsSection.style.display = 'none';
-                showPage('recommendations-page');
-
-                try {
-                    // --- 2. STAGE 1: LOCAL ML DETECTION ---
-                    console.log("--- STAGE 1: ML DETECTION ---");
-                    const detectedDisease = await detectDisease(symptoms);
-                    document.getElementById('disease-result').innerHTML = detectedDisease;
-
-                    // --- 3. FAKE BACKEND: PERSONALIZE PROMPT ---
-                    // This logic comes from your 'MediGuideAppInfo.docx'
-                    console.log("--- STAGE 2: AI GENERATION ---");
-                    let historyAnalysis = "User has no significant past history.";
-                    if (userHistory.some(record => record.symptoms.toLowerCase().includes("headache"))) {
-                        historyAnalysis = "User frequently reports headaches.";
-                    } else if (userHistory.some(record => record.symptoms.toLowerCase().includes("cough"))) {
-                        historyAnalysis = "User has a recent history of coughing.";
-                    }
-
-                    // Create the final prompt
-                    const augmentedPrompt = `
-                        As a medical assistant, analyze the following user data and provide a care plan.
-                        The user's suspected condition (from our ML model) is: ${detectedDisease}.
-                        Please generate a care plan for this condition.
-                        
-                        Here is the user's data for context:
-                        - Age: ${age}
-                        - Gender: ${gender}
-                        - Current Symptoms: "${symptoms}"
-                        - Stated Medical Conditions: "${medicalHistory || 'None'}"
-                        - Summary of Past History: "${historyAnalysis}"
-                    `;
-                    
-                    console.log("Augmented Prompt:", augmentedPrompt);
-
-                    // --- 4. STAGE 2: CALL REAL AI API ---
-                    const aiResponse = await callGeminiAPI(augmentedPrompt);
-
-                    if (aiResponse) {
-                        // Populate results with REAL AI data
-                        document.getElementById('description-result').innerHTML = aiResponse.description || 'No description available.';
-                        document.getElementById('precautions-result').innerHTML = aiResponse.precautions || 'No precautions suggested.';
-                        document.getElementById('medications-result').innerHTML = aiResponse.medications || 'No medications suggested.';
-                        document.getElementById('workout-result').innerHTML = aiResponse.workout || 'No workout recommendations.';
-                        document.getElementById('diet-result').innerHTML = aiResponse.diet || 'No dietary recommendations.';
-                    
-                        // --- 5. FAKE BACKEND: SAVE TO HISTORY ---
-                        // (As described in your doc)
-                        const newRecord = {
-                            date: new Date().toLocaleDateString(),
-                            symptoms: symptoms,
-                            diagnosis: detectedDisease
-                        };
-                        userHistory.push(newRecord);
-                        const historyKey = `mediguide_history_${localStorage.getItem('username')}`;
-                        localStorage.setItem(historyKey, JSON.stringify(userHistory));
-                        console.log("Saved new record to user history.");
-
-                    } else {
-                        throw new Error("Failed to get a response from the AI.");
-                    }
-
-                } catch (err) {
-                    console.error(err);
-                    document.getElementById('disease-result').innerHTML = 'Error';
-                    document.getElementById('description-result').innerHTML = `An error occurred: ${err.message}. Please check the console and your API key.`;
-                } finally {
-                    // Hide loader and show results
-                    loaderRec.style.display = 'none';
-                    resultsSection.style.display = 'block';
-                    submitButton.disabled = false;
-                    submitButton.textContent = "Get Recommendations";
-                }
-            });
-            
-            // ===================================================================
-            // === 5. UI & AUTHENTICATION HELPERS
-            // ===================================================================
-
-            /**
-             * Function to show a specific page and update active nav item
-             */
+            // Function to show a specific page and update active nav item
             function showPage(pageId) {
                 pages.forEach(page => page.style.display = 'none');
-                document.getElementById(pageId).style.display = 'flex'; // Use flex for our layout
+                document.getElementById(pageId).style.display = 'block';
                 navItems.forEach(item => item.classList.remove('active'));
-                const activeNavItem = document.querySelector(`[data-page="${pageId}"]`);
-                if (activeNavItem) {
-                    activeNavItem.classList.add('active');
-                }
+                document.querySelector(`[data-page="${pageId}"]`).classList.add('active');
             }
 
             // Handle navigation clicks
@@ -956,6 +809,9 @@
                     showPage(item.getAttribute('data-page'));
                 });
             });
+
+            // Initial page load
+            showPage('home-page');
 
             // Tab functionality for symptom entry
             tabButtons.forEach(button => {
@@ -980,60 +836,152 @@
                 textarea.focus();
             };
 
-            /**
-             * Login/Logout logic (Simulated as per your doc)
-             */
+            // Form submission logic
+            form.addEventListener('submit', async function (e) {
+                e.preventDefault();
+
+                const age = document.getElementById('age').value;
+                const gender = document.getElementById('gender').value;
+                const activeTabContent = document.querySelector('.tab-content.active');
+                const symptomsTextarea = activeTabContent.querySelector('textarea');
+                const symptoms = symptomsTextarea.value;
+                const medicalHistory = document.getElementById('medical-history').value;
+
+                // Show loader and hide results section
+                loaderRec.style.display = 'flex';
+                resultsSection.style.display = 'none';
+
+                showPage('recommendations-page'); // Automatically switch to recommendations page
+
+                try {
+                    const response = await callGeminiAPI(age, gender, symptoms, medicalHistory);
+
+                    document.getElementById('disease-result').innerHTML = response.disease || 'No specific disease identified based on symptoms.';
+                    document.getElementById('description-result').innerHTML = response.description || 'No detailed description available.';
+                    document.getElementById('precautions-result').innerHTML = response.precautions || 'No specific precautions suggested.';
+                    document.getElementById('medications-result').innerHTML = response.medications || 'No specific medications suggested.';
+                    document.getElementById('workout-result').innerHTML = response.workout || 'No specific workout recommendations.';
+                    document.getElementById('diet-result').innerHTML = response.diet || 'No specific dietary recommendations.';
+
+                    resultsSection.style.display = 'block';
+                } catch (err) {
+                    // Custom message for API error instead of alert
+                    const messageBox = document.createElement('div');
+                    messageBox.style.cssText = "background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; padding: 15px; border-radius: 10px; margin-top: 20px;";
+                    messageBox.innerHTML = "<strong>Error:</strong> " + err.message + "<br>Check console for details.";
+                    document.getElementById('recommendations-page').querySelector('.content-wrapper').appendChild(messageBox);
+                    console.error(err);
+                    resultsSection.style.display = 'block';
+                    document.getElementById('disease-result').innerHTML = 'Error fetching data.';
+                    document.getElementById('description-result').innerHTML = 'Please check your API key or try again later.';
+                    document.getElementById('precautions-result').innerHTML = '';
+                    document.getElementById('medications-result').innerHTML = '';
+                    document.getElementById('workout-result').innerHTML = '';
+                    document.getElementById('diet-result').innerHTML = '';
+                } finally {
+                    loaderRec.style.display = 'none';
+                }
+            });
+
+            async function callGeminiAPI(age, gender, symptoms, medicalHistory) {
+                const apiKey = "AIzaSyAJXz6E8Yi2KFXeMlZp_DPkf0a9oNo2qhw"; // 
+                const model = "gemini-2.5-flash-preview-05-20"; // Updated to use the correct model
+                const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
+
+                const prompt = `As a medical assistant, provide recommendations for a ${age}-year-old ${gender} with these symptoms: ${symptoms}. Medical history: ${medicalHistory || 'None'}.
+                Return only valid JSON with keys: disease, description, precautions, medications, workout, diet.`;
+
+                const body = {
+                    contents: [{ parts: [{ text: prompt }] }],
+                    generationConfig: { responseMimeType: "application/json" }
+                };
+
+                const res = await fetch(url, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(body)
+                });
+
+                const data = await res.json();
+                console.log("Full API response:", data);
+
+                if (!res.ok) {
+                    throw new Error(data.error?.message || "API Error");
+                }
+
+                let aiText = data.candidates?.[0]?.content?.parts?.[0]?.text;
+                if (!aiText) throw new Error("No text returned by AI.");
+
+                try {
+                    return JSON.parse(aiText.trim());
+                } catch {
+                    return {
+                        disease: "Analysis incomplete.",
+                        description: aiText || "Could not parse detailed recommendations. Please try again with more specific symptoms.",
+                        precautions: "—",
+                        medications: "—",
+                        workout: "—",
+                        diet: "—"
+                    };
+                }
+            }
+
+            // Login/Logout logic
             function updateLoginState() {
                 const username = localStorage.getItem('username');
                 if (username) {
-                    // "Fake backend" load of user history
-                    const historyKey = `mediguide_history_${username}`;
-                    const storedHistory = localStorage.getItem(historyKey);
-                    if (storedHistory) {
-                        userHistory = JSON.parse(storedHistory);
-                    } else {
-                        userHistory = [];
-                    }
-
-                    // Update UI
                     welcomeUsername.textContent = username;
                     loginForm.style.display = 'none';
                     welcomeState.style.display = 'flex';
                     loginMessage.textContent = 'You are logged in.';
                     loginHeader.textContent = 'Profile';
-                    showPage('home-page'); // Go to home page after login
                 } else {
-                    // Not logged in
-                    userHistory = [];
                     loginForm.style.display = 'block';
                     welcomeState.style.display = 'none';
                     loginMessage.textContent = 'Enter a username and password to create an account.';
                     loginHeader.textContent = 'User Login';
-                    showPage('login-page'); // Force login page
                 }
             }
 
             loginForm.addEventListener('submit', function (e) {
                 e.preventDefault();
                 const username = document.getElementById('username').value;
-                if (!username) {
-                    alert("Please enter a username.");
-                    return;
-                }
-                // Save session to localStorage
+                const password = document.getElementById('password').value;
+
+                // For a real app, this is not a secure way to store user info.
+                // We're doing this for a simple demo and to persist state.
                 localStorage.setItem('username', username);
-                updateLoginState(); // This will now log the user in
+                localStorage.setItem('isLoggedIn', 'true');
+
+                loginMessage.textContent = `Welcome back, ${username}!`;
+                document.getElementById('username').value = '';
+                document.getElementById('password').value = '';
+                updateLoginState();
             });
 
             logoutButton.addEventListener('click', function () {
                 localStorage.removeItem('username');
-                userHistory = []; // Clear in-memory history
-                updateLoginState(); // This will show the login page
+                localStorage.removeItem('isLoggedIn');
+                loginMessage.textContent = 'You have successfully logged out.';
+                updateLoginState();
             });
 
-            // Initial check for login state on page load
+            // Initial check for login state
             updateLoginState();
+
+            // PWA Service Worker Registration
+            if ('serviceWorker' in navigator) {
+                window.addEventListener('load', () => {
+                    // Note: If hosting on a subfolder (e.g., GitHub Pages project site), 
+                    // you might need to change the scope/path here. 
+                    // './service-worker.js' generally works for the same directory.
+                    navigator.serviceWorker.register('service-worker.js')
+                        .then(reg => console.log('Service Worker registered!', reg.scope))
+                        .catch(err => console.log('Service Worker registration failed:', err));
+                });
+            }
         });
     </script>
 </body>
+
 </html>
